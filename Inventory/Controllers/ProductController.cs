@@ -13,7 +13,7 @@ namespace Inventory.Controllers
         public List<Product> GetAllProducts() { return ProductService.GetAll(); }
 
         [HttpGet("{id}")]
-        public Product GetProduct(Product product) { return ProductService.Get(product.Id); }
+        public Product GetProduct(int id) { return ProductService.Get(id); }
 
         [HttpPost]
         public void AddProduct(Product product) { ProductService.Add(product); }

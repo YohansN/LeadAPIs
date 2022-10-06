@@ -12,8 +12,8 @@ namespace Inventory.Services
         {
             Products = new List<Product>
             {
-                 new Product { Id = 1, Name = "Garrafa" },
-                 new Product { Id = 2, Name = "Garrafa Termica" }
+                 new Product { Id = 1, Name = "Garrafa", Category = new Category{ Id = 1, Name = "Higiene" } },
+                 new Product { Id = 2, Name = "Garrafa Termica", Category = new Category{ Id = 2, Name = "Beleza" } }
             };
         }
 
