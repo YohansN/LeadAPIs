@@ -10,19 +10,35 @@ namespace Inventory.Controllers
     public class CategoryController : ControllerBase
     {
         [HttpGet]
-        public List<Category> GetAllCategories() => CategoryService.GetAll();
-
+        public List<Category> GetAllCategories()
+        {
+            CategoryService service = new CategoryService();
+            return service.GetAll();
+        }
+            
         [HttpGet("{id}")]
-        public Category GetCategory(int id) => CategoryService.Get(id);
+        public Category GetCategory(int id)
+        {
+            CategoryService service = new CategoryService();
+            return service.Get(id);
+        }
 
         [HttpPost]
-        public void CreateCategory(Category category) => CategoryService.Add(category);
+        public void CreateCategory(Category category)
+        {
+            CategoryService service = new CategoryService();
+            service.Add(category);
+        }
 
         [HttpDelete("{id}")]
-        public void DeleteCategory(Category category) => CategoryService.Delete(category.Id);
+        public void DeleteCategory(Category category)
+        {
+            CategoryService service = new CategoryService();
+            service.Delete(category.Id_Category);
+        }
         
-        [HttpPut]
-        public void UpdateCategory(Category category) => CategoryService.Update(category);
+        //[HttpPut]
+        //public void UpdateCategory(Category category) => CategoryService.Update(category);
 
         
     }

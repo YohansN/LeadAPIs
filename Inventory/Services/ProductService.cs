@@ -1,43 +1,52 @@
-﻿using Inventory.Models;
+﻿using Inventory.Data;
+using Inventory.Models;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace Inventory.Services
 {
-    public static class ProductService
+    public class ProductService
     {
-        static List<Product> Products { get; }
-        static int nextId = 3;
-        static ProductService()
+        
+        public ProductService(){}
+
+        public List<Product> GetAll()
         {
-            Products = new List<Product>
-            {
-                 new Product { Id = 1, Name = "Garrafa", Category = new Category{ Id = 1, Name = "Higiene" } },
-                 new Product { Id = 2, Name = "Garrafa Termica", Category = new Category{ Id = 2, Name = "Beleza" } }
-            };
+            Context _context = new Context();
+            return _context.Product.ToList();
         }
 
-        public static List<Product> GetAll() => Products;
-        public static Product? Get(int id) => Products.FirstOrDefault(p => p.Id == id);
-        public static void Add(Product product)
+        public Product? Get(int id)
         {
-            product.Id = nextId++;
-            Products.Add(product);
+            Context _context = new Context();
+            return _context.Product.FirstOrDefault(p => p.Id_Product == id);
         }
-        public static void Delete(int id)
+
+        public void Add(Product product)
         {
+            Context _context = new Context();
+            _context.Product.Add(product);
+        }
+
+        public void Delete(int id)
+        {
+            Context _context = new Context();
+
             var product = Get(id);
             if (product is null)
                 return;
-            Products.Remove(product);
+            _context.Product.Remove(product);
         }
-        public static void Update(Product product)
+        
+        /*
+        public void Update(Product product)
         {
-            var index = Products.FindIndex(p => p.Id == product.Id);
+            var index = Products.FindIndex(p => p.Id_Product == product.Id_Product);
             if (index == -1)
                 return;
             Products[index] = product;
         }
+        */
     }
 }
 

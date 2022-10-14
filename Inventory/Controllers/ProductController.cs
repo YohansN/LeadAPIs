@@ -10,18 +10,34 @@ namespace Inventory.Controllers
     public class ProductController : ControllerBase
     {
         [HttpGet]
-        public List<Product> GetAllProducts() { return ProductService.GetAll(); }
+        public List<Product> GetAllProducts() 
+        {
+            ProductService service = new ProductService();
+            return service.GetAll();
+        }
 
         [HttpGet("{id}")]
-        public Product GetProduct(int id) { return ProductService.Get(id); }
+        public Product GetProduct(int id)
+        {
+            ProductService service = new ProductService();
+            return service.Get(id);
+        }
 
         [HttpPost]
-        public void AddProduct(Product product) { ProductService.Add(product); }
+        public void AddProduct(Product product)
+        {
+            ProductService service = new ProductService();
+            service.Add(product);
+        } 
 
         [HttpDelete("{id}")]
-        public void DeleteProduct(Product product) { ProductService.Delete(product.Id); }
+        public void DeleteProduct(Product product)
+        {
+            ProductService service = new ProductService();
+            service.Delete(product.Id_Product);
+        } 
 
-        [HttpPut]
-        public void UpdateProduct(Product product) { ProductService.Update(product); }
+        //[HttpPut]
+        //public void UpdateProduct(Product product) { ProductService.Update(product); }
     }
 }

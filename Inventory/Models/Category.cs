@@ -1,8 +1,11 @@
-﻿namespace Inventory.Models
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Inventory.Models
 {
     public class Category
     {
-        public int Id { get; set; }
+        [Key]
+        public int Id_Category { get; set; }
         public string Name { get; set; }
     }
 }

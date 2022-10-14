@@ -1,43 +1,56 @@
-﻿using Inventory.Models;
+﻿using Inventory.Data;
+using Inventory.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Inventory.Services
 {
     public class CategoryService
     {
-        static List<Category> Categories { get; }
-        static int nextId = 3;
-        static CategoryService()
+        
+        public CategoryService(){}
+
+        public List<Category> GetAll()
         {
-            Categories = new List<Category>
-            {
-                 new Category { Id = 1, Name = "Higiene" },
-                 new Category { Id = 2, Name = "Beleza" }
-            };
+            Context _context = new Context();
+            return _context.Category.ToList();
         }
 
-        public static List<Category> GetAll() => Categories;
-        public static Category? Get(int id) => Categories.FirstOrDefault(c => c.Id == id);
-        public static void Add(Category category)
+        public Category? Get(int id)
         {
-            category.Id = nextId++;
-            Categories.Add(category);
+            Context _context = new Context();
+            return _context.Category.FirstOrDefault(c => c.Id_Category == id);
         }
-        public static void Delete(int id)
+            
+        public void Add(Category category)
         {
+            Context _context = new Context();
+            _context.Category.Add(category);
+        }
+
+        public void Delete(int id)
+        {
+            Context _context = new Context();
+
             var category = Get(id);
             if (category is null)
                 return;
-            Categories.Remove(category);
+            _context.Category.Remove(category);
         }
+
+        /*
         public static void Update(Category category)
         {
-            var index = Categories.FindIndex(p => p.Id == category.Id);
+            Context _context = new Context();
+
+            var index = _context.Category.Update(category);
             if (index == -1)
                 return;
-            Categories[index] = category;
+            _context.Category[index] = category;
         }
+        */
     }
 }
 
