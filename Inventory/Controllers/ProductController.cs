@@ -37,7 +37,10 @@ namespace Inventory.Controllers
             service.Delete(product.Id_Product);
         } 
 
-        //[HttpPut]
-        //public void UpdateProduct(Product product) { ProductService.Update(product); }
+        [HttpPut]
+        public void UpdateProduct(Product product) {
+            ProductService service = new ProductService();
+            service.Update(product); 
+        }
     }
 }

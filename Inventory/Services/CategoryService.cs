@@ -1,6 +1,7 @@
 ﻿using Inventory.Data;
 using Inventory.Models;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace Inventory.Services
     public class CategoryService
     {
         
-        public CategoryService(){}
+        
 
         public List<Category> GetAll()
         {
@@ -28,7 +29,9 @@ namespace Inventory.Services
         {
             Context _context = new Context();
             _context.Category.Add(category);
+            _context.SaveChanges();
         }
+        
 
         public void Delete(int id)
         {
@@ -38,19 +41,17 @@ namespace Inventory.Services
             if (category is null)
                 return;
             _context.Category.Remove(category);
+            _context.SaveChanges();
         }
 
-        /*
-        public static void Update(Category category)
+        
+        public void Update(Category category)
         {
             Context _context = new Context();
-
             var index = _context.Category.Update(category);
-            if (index == -1)
-                return;
-            _context.Category[index] = category;
+            _context.SaveChanges();
         }
-        */
+        
     }
 }
 

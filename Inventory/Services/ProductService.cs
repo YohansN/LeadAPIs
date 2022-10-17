@@ -26,6 +26,7 @@ namespace Inventory.Services
         {
             Context _context = new Context();
             _context.Product.Add(product);
+            _context.SaveChanges();
         }
 
         public void Delete(int id)
@@ -36,17 +37,17 @@ namespace Inventory.Services
             if (product is null)
                 return;
             _context.Product.Remove(product);
+            _context.SaveChanges();
         }
         
-        /*
+        
         public void Update(Product product)
         {
-            var index = Products.FindIndex(p => p.Id_Product == product.Id_Product);
-            if (index == -1)
-                return;
-            Products[index] = product;
+            Context _context = new Context();
+            var index = _context.Product.Update(product);
+            _context.SaveChanges();
         }
-        */
+        
     }
 }
 

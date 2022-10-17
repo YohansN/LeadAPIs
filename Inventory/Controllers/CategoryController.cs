@@ -36,9 +36,13 @@ namespace Inventory.Controllers
             CategoryService service = new CategoryService();
             service.Delete(category.Id_Category);
         }
-        
-        //[HttpPut]
-        //public void UpdateCategory(Category category) => CategoryService.Update(category);
+
+        [HttpPut]
+        public void UpdateCategory(Category category)
+        {
+            CategoryService service = new CategoryService();
+            service.Update(category);
+        }
 
         
     }
