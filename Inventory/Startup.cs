@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Inventory.Data;
+using Inventory.Services.Interface;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -28,6 +29,9 @@ namespace Inventory
         {
             services.AddControllers();
             services.AddDbContext<Context>();
+
+            services.AddScoped<ICategoryService, ICategoryService>();
+            services.AddScoped<IProductService, IProductService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

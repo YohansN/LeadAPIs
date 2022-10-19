@@ -1,5 +1,8 @@
 ﻿using Inventory.Data;
 using Inventory.Models;
+using Inventory.Repositories;
+using Inventory.Repositories.Interfaces;
+using Inventory.Services.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,49 +11,23 @@ using System.Threading.Tasks;
 
 namespace Inventory.Services
 {
-    public class CategoryService
+    public class CategoryService : ICategoryService
     {
-        
-        
-
-        public List<Category> GetAll()
+        ICategoryRepository _categoryRepository;
+        CategoryService(ICategoryRepository categoryRepository)
         {
-            Context _context = new Context();
-            return _context.Category.ToList();
+            this._categoryRepository = categoryRepository;
         }
 
-        public Category? Get(int id)
-        {
-            Context _context = new Context();
-            return _context.Category.FirstOrDefault(c => c.Id_Category == id);
-        }
+        public List<Category> GetAll() => _categoryRepository.GetAll();
+
+        public Category? Get(int id) => _categoryRepository.Get(id);
             
-        public void Add(Category category)
-        {
-            Context _context = new Context();
-            _context.Category.Add(category);
-            _context.SaveChanges();
-        }
+        public void Add(Category category) => _categoryRepository.Add(category);
         
+        public void Delete(int id) => _categoryRepository.Delete(id);
 
-        public void Delete(int id)
-        {
-            Context _context = new Context();
-
-            var category = Get(id);
-            if (category is null)
-                return;
-            _context.Category.Remove(category);
-            _context.SaveChanges();
-        }
-
-        
-        public void Update(Category category)
-        {
-            Context _context = new Context();
-            var index = _context.Category.Update(category);
-            _context.SaveChanges();
-        }
+        public void Update(Category category) => _categoryRepository.Update(category);
         
     }
 }
