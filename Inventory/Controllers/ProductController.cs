@@ -1,5 +1,6 @@
 ﻿using Inventory.Models;
 using Inventory.Services;
+using Inventory.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -9,38 +10,26 @@ namespace Inventory.Controllers
     [Route("[controller]")]
     public class ProductController : ControllerBase
     {
-        [HttpGet]
-        public List<Product> GetAllProducts() 
+        private IProductService _productService;
+        ProductController(IProductService productService)
         {
-            ProductService service = new ProductService();
-            return service.GetAll();
+            this._productService = productService;
         }
+
+        [HttpGet]
+        public List<Product> GetAllProducts() => _productService.GetAll();
 
         [HttpGet("{id}")]
-        public Product GetProduct(int id)
-        {
-            ProductService service = new ProductService();
-            return service.Get(id);
-        }
+        public Product GetProduct(int id) => _productService.Get(id);
 
         [HttpPost]
-        public void AddProduct(Product product)
-        {
-            ProductService service = new ProductService();
-            service.Add(product);
-        } 
+        public void AddProduct(Product product) => _productService.Add(product);
 
         [HttpDelete("{id}")]
-        public void DeleteProduct(Product product)
-        {
-            ProductService service = new ProductService();
-            service.Delete(product.Id_Product);
-        } 
+        public void DeleteProduct(Product product) => _productService.Delete(product.Id_Product);
 
         [HttpPut]
-        public void UpdateProduct(Product product) {
-            ProductService service = new ProductService();
-            service.Update(product); 
-        }
+        public void UpdateProduct(Product product) => _productService.Update(product); 
+        
     }
 }

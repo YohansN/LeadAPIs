@@ -8,8 +8,8 @@ namespace Inventory.Repositories
 {
     public class CategoryRepository : ICategoryRepository
     {
-        Context _context;
-        CategoryRepository(Context context)
+        private Context _context;
+        public CategoryRepository(Context context)
         {
             this._context = context;
         }
@@ -33,7 +33,7 @@ namespace Inventory.Repositories
         public void Delete(int id)
         {
             var category = Get(id);
-            if(category != null)
+            if (category != null)
             {
                 _context.Category.Remove(category);
                 _context.SaveChanges();
@@ -45,6 +45,5 @@ namespace Inventory.Repositories
             _context.Category.Update(category);
             _context.SaveChanges();
         }
-
     }
 }

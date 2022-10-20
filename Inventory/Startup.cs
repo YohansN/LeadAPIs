@@ -1,17 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Inventory.Data;
-using Inventory.Services.Interface;
+using Inventory.Repositories;
+using Inventory.Repositories.Interfaces;
+using Inventory.Services;
+using Inventory.Services.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 
 namespace Inventory
 {
@@ -30,8 +26,11 @@ namespace Inventory
             services.AddControllers();
             services.AddDbContext<Context>();
 
-            services.AddScoped<ICategoryService, ICategoryService>();
-            services.AddScoped<IProductService, IProductService>();
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<IProductService, ProductService>();
+
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IProductRepository, ProductRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

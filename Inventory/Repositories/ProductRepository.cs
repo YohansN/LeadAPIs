@@ -8,8 +8,8 @@ namespace Inventory.Repositories
 {
     public class ProductRepository : IProductRepository
     {
-        Context _context;
-        ProductRepository(Context context)
+        private Context _context;
+        public ProductRepository(Context context)
         {
             this._context = context;
         }
@@ -44,7 +44,5 @@ namespace Inventory.Repositories
             _context.Product.Update(product);
             _context.SaveChanges();
         }
-        
-
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Inventory.Models;
 using Inventory.Services;
+using Inventory.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 
@@ -9,41 +10,26 @@ namespace Inventory.Controllers
     [Route("[controller]")]
     public class CategoryController : ControllerBase
     {
-        [HttpGet]
-        public List<Category> GetAllCategories()
+        private ICategoryService _categoryService;
+        CategoryController(ICategoryService categoryService)
         {
-            CategoryService service = new CategoryService();
-            return service.GetAll();
+            this._categoryService = categoryService;
         }
+
+        [HttpGet]
+        public List<Category> GetAllCategories() => _categoryService.GetAll();
             
         [HttpGet("{id}")]
-        public Category GetCategory(int id)
-        {
-            CategoryService service = new CategoryService();
-            return service.Get(id);
-        }
-
+        public Category GetCategory(int id) => _categoryService.Get(id);
+        
         [HttpPost]
-        public void CreateCategory(Category category)
-        {
-            CategoryService service = new CategoryService();
-            service.Add(category);
-        }
-
+        public void CreateCategory(Category category) => _categoryService.Add(category);
+        
         [HttpDelete("{id}")]
-        public void DeleteCategory(Category category)
-        {
-            CategoryService service = new CategoryService();
-            service.Delete(category.Id_Category);
-        }
+        public void DeleteCategory(Category category) => _categoryService.Delete(category.Id_Category);
 
         [HttpPut]
-        public void UpdateCategory(Category category)
-        {
-            CategoryService service = new CategoryService();
-            service.Update(category);
-        }
+        public void UpdateCategory(Category category) => _categoryService.Update(category);
 
-        
     }
 }
