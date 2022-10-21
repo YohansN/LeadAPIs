@@ -11,7 +11,7 @@ namespace Inventory.Controllers
     public class ProductController : ControllerBase
     {
         private IProductService _productService;
-        ProductController(IProductService productService)
+        public ProductController(IProductService productService)
         {
             this._productService = productService;
         }
@@ -26,7 +26,7 @@ namespace Inventory.Controllers
         public void AddProduct(Product product) => _productService.Add(product);
 
         [HttpDelete("{id}")]
-        public void DeleteProduct(Product product) => _productService.Delete(product.Id_Product);
+        public void DeleteProduct(int id) => _productService.Delete(id);
 
         [HttpPut]
         public void UpdateProduct(Product product) => _productService.Update(product); 

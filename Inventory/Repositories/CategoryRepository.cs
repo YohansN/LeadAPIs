@@ -30,14 +30,10 @@ namespace Inventory.Repositories
             _context.SaveChanges();
         }
 
-        public void Delete(int id)
+        public void Delete(Category categoryToDelete)
         {
-            var category = Get(id);
-            if (category != null)
-            {
-                _context.Category.Remove(category);
-                _context.SaveChanges();
-            }
+            _context.Category.Remove(categoryToDelete);
+            _context.SaveChanges();   
         }
 
         public void Update(Category category)

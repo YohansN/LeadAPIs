@@ -30,12 +30,9 @@ namespace Inventory.Repositories
             _context.SaveChanges();
         }
 
-        public void Delete(int id)
+        public void Delete(Product productToDelete)
         {
-            var product = Get(id);
-            if (product is null)
-                return;
-            _context.Product.Remove(product);
+            _context.Product.Remove(productToDelete);
             _context.SaveChanges();
         }
 

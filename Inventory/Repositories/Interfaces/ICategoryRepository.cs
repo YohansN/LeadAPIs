@@ -11,7 +11,7 @@ namespace Inventory.Repositories.Interfaces
 
         void Add(Category category);
 
-        void Delete(int id);
+        void Delete(Category categoryToDelete);
 
         void Update(Category category);
     }

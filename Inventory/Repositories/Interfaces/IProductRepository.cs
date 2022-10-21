@@ -11,8 +11,9 @@ namespace Inventory.Repositories.Interfaces
 
         void Add(Product product);
 
-        void Delete(int id);
+        void Delete(Product productToDelete);
 
         void Update(Product product);
+        
     }
 }

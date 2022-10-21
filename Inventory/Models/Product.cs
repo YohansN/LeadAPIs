@@ -7,6 +7,6 @@ namespace Inventory.Models
         [Key]
         public int Id_Product { get; set; }
         public string Name { get; set; }
-        public Category Category { get; set; }
+        public int Id_Category { get; set; }
     }
 }

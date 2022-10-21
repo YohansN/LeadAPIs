@@ -11,7 +11,7 @@ namespace Inventory.Controllers
     public class CategoryController : ControllerBase
     {
         private ICategoryService _categoryService;
-        CategoryController(ICategoryService categoryService)
+        public CategoryController(ICategoryService categoryService)
         {
             this._categoryService = categoryService;
         }
@@ -26,7 +26,7 @@ namespace Inventory.Controllers
         public void CreateCategory(Category category) => _categoryService.Add(category);
         
         [HttpDelete("{id}")]
-        public void DeleteCategory(Category category) => _categoryService.Delete(category.Id_Category);
+        public void DeleteCategory(int id) => _categoryService.Delete(id);
 
         [HttpPut]
         public void UpdateCategory(Category category) => _categoryService.Update(category);

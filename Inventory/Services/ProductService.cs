@@ -19,8 +19,18 @@ namespace Inventory.Services
 
         public void Add(Product product) => _productRepository.Add(product);
 
-        public void Delete(int id) => _productRepository.Delete(id);
+        public void Delete(int id)
+        {
+            var productToDelete = _productRepository.Get(id);
+            if(productToDelete != null)
+                _productRepository.Delete(productToDelete);
+        }
 
-        public void Update(Product product) => _productRepository.Update(product);
+        public void Update(Product product)
+        {
+            if(product != null)
+                _productRepository.Update(product);
+        }
+        
     }
 }

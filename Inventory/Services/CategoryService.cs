@@ -19,8 +19,18 @@ namespace Inventory.Services
 
         public void Add(Category category) => _categoryRepository.Add(category);
 
-        public void Delete(int id) => _categoryRepository.Delete(id);
+        public void Delete(int id)
+        {
+            var categoryToDelete = _categoryRepository.Get(id);
+            if(categoryToDelete != null)
+                _categoryRepository.Delete(categoryToDelete);
+        }
 
-        public void Update(Category category) => _categoryRepository.Update(category);
+        public void Update(Category category)
+        {
+            if(category != null)
+                _categoryRepository.Update(category);
+        }
+        
     }
 }
