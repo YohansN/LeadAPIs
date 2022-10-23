@@ -12,6 +12,6 @@ namespace ZooCtrlApi.Data
 
         public DbSet<Animal> Animals { get; set; }
         public DbSet<Filo> Filos { get; set; }
-        public DbSet<ZonaZoo> ZonaZoos { get; set; }
+        public DbSet<Zona> Zonas { get; set; }
     }
 }
