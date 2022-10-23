@@ -11,6 +11,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using ZooCtrlApi.Data;
+using ZooCtrlApi.Repositories;
+using ZooCtrlApi.Repositories.Interfaces;
+using ZooCtrlApi.Services;
+using ZooCtrlApi.Services.Interfaces;
 
 namespace ZooCtrlApi
 {
@@ -29,6 +33,12 @@ namespace ZooCtrlApi
             services.AddControllers();
 
             services.AddDbContext<Context>();
+
+            services.AddScoped<IAnimalRepository, AnimalRepository>();
+            services.AddScoped<IFiloRepository, FiloRepository>();
+            services.AddScoped<IZonaRepository, ZonaRepository>();
+
+            services.AddScoped<IAnimalService, AnimalService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
