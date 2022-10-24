@@ -36,7 +36,7 @@ namespace ZooCtrlApi.Services
         public void Add(Animal animal)
         {
             if (UsedId(animal.IdAnimal))
-                return;
+                return; //modificar 
             _animalRepository.Add(animal);
         }
         
@@ -44,14 +44,14 @@ namespace ZooCtrlApi.Services
         {
             if(UsedId(id))
                 _animalRepository.Delete(id);
-            return;
+            return; //modificar 
         }
         
         public void Update(Animal animal)
         {
             if(UsedId(animal.IdAnimal))
                 _animalRepository.Update(animal);
-            return;
+            return; //modificar 
         }
     }
 }
