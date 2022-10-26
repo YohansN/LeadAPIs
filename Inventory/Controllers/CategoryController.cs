@@ -59,7 +59,7 @@ namespace Inventory.Controllers
         {
             var categoryDelete = _categoryService.Delete(id);
             if(categoryDelete)
-                return Ok(categoryDelete);
+                return NoContent();
             return BadRequest();
         }
 
@@ -72,7 +72,7 @@ namespace Inventory.Controllers
         {
             var categoryUpdate = _categoryService.Update(category);
             if(categoryUpdate)
-                return Ok(categoryUpdate);
+                return NoContent();
             return BadRequest();
         } 
 

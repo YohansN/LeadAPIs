@@ -59,7 +59,7 @@ namespace Inventory.Controllers
         {
             var productDelete = _productService.Delete(id);
             if(productDelete)
-                return Ok(productDelete);
+                return NoContent();
             return BadRequest();
         }
 
@@ -72,7 +72,7 @@ namespace Inventory.Controllers
         {
             var productUpdate = _productService.Update(product);
             if(productUpdate)
-                return Ok(productUpdate);
+                return NoContent();
             return BadRequest();
         }
     }
