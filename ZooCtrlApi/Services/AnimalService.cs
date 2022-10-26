@@ -9,12 +9,13 @@ namespace ZooCtrlApi.Services
     public class AnimalService : IAnimalService
     {
         private readonly IAnimalRepository _animalRepository;
-        public AnimalService(IAnimalRepository animalRepository)
+        private IFiloRepository _filoRepository;
+        public AnimalService(IAnimalRepository animalRepository, IFiloRepository filoRepository)
         {
             this._animalRepository = animalRepository;
+            this._filoRepository = filoRepository;
         }
         
-        //Verifica se um Id está ou não sendo usado(existente).
         private bool UsedId(int id)
         {
             var listAnimal = GetAll();
@@ -29,29 +30,40 @@ namespace ZooCtrlApi.Services
         {
             if(UsedId(id))
                 return _animalRepository.GetById(id);
-            //modificar depois: retornar notFound()
             return null;
         }
         
-        public void Add(Animal animal)
+        public bool Add(Animal animal)
         {
-            if (UsedId(animal.IdAnimal))
-                return; //modificar 
-            _animalRepository.Add(animal);
+            //verificar se o id do animal ja existe e se o idFilo é um filo existente.
+            Filo filo = _filoRepository.GetById(animal.IdFilo);
+            if (!UsedId(animal.IdAnimal) && filo != null)
+            {
+                _animalRepository.Add(animal);
+                return true;
+            }
+            return false;
         }
-        
-        public void Delete(int id)
+
+        public bool Update(Animal animal)
         {
-            if(UsedId(id))
-                _animalRepository.Delete(id);
-            return; //modificar 
-        }
-        
-        public void Update(Animal animal)
-        {
-            if(UsedId(animal.IdAnimal))
+            Filo filo = _filoRepository.GetById(animal.IdFilo);
+            if (UsedId(animal.IdAnimal) && filo != null)
+            {
                 _animalRepository.Update(animal);
-            return; //modificar 
+                return true;
+            }
+            return false;
+        }
+
+        public bool Delete(int id)
+        {
+            if (UsedId(id))
+            {
+                _animalRepository.Delete(id);
+                return true;
+            }
+            return false; 
         }
     }
 }

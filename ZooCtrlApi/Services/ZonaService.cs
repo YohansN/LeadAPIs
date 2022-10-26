@@ -8,7 +8,8 @@ namespace ZooCtrlApi.Services
     {
         private IZonaService _zonaService;
 
-        public ZonaService(IZonaService zonaService)        {
+        public ZonaService(IZonaService zonaService)
+        {
             _zonaService = zonaService;
         }
 
