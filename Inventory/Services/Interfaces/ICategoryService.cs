@@ -9,10 +9,10 @@ namespace Inventory.Services.Interfaces
 
         Category Get(int id);
 
-        void Add(Category category);
+        bool Add(Category category);
 
-        void Delete(int id);
+        bool Delete(int id);
 
-        void Update(Category category);
+        bool Update(Category category);
     }
 }

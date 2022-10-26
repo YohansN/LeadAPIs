@@ -30,26 +30,35 @@ namespace Inventory.Services
             return null;
         } 
 
-        public void Add(Category category)
+        public bool Add(Category category)
         {
-            if(!UsedId(category.Id_Category))
+            if (!UsedId(category.Id_Category))
+            {
                 _categoryRepository.Add(category);
-            return;
+                return true;
+            }         
+            return false;
         } 
 
-        public void Delete(int id)
+        public bool Delete(int id)
         {
             var categoryToDelete = _categoryRepository.Get(id);
             if(categoryToDelete != null)
+            {
                 _categoryRepository.Delete(categoryToDelete);
-            return;
+                return true;
+            }
+            return false;
         }
 
-        public void Update(Category category)
+        public bool Update(Category category)
         {
             if (UsedId(category.Id_Category))
+            {
                 _categoryRepository.Update(category);
-            return;
+                return true;
+            }
+            return false;
         }
         
     }

@@ -9,9 +9,11 @@ namespace Inventory.Services
     public class ProductService : IProductService
     {
         private IProductRepository _productRepository;
-        public ProductService(IProductRepository productRepository)
+        private ICategoryRepository _categoryRepository;
+        public ProductService(IProductRepository productRepository, ICategoryRepository categoryRepository)
         {
             this._productRepository = productRepository;
+            this._categoryRepository = categoryRepository;
         }
         private bool UsedId(int id)
         {
@@ -30,26 +32,37 @@ namespace Inventory.Services
             return null;
         } 
 
-        public void Add(Product product)
+        public bool Add(Product product)
         {
-            if(!UsedId(product.Id_Product))
+            Category categoryById = _categoryRepository.Get(product.Id_Category);
+            if (!UsedId(product.Id_Product) && categoryById != null)
+            {
                 _productRepository.Add(product);
-            return;
+                return true;
+            }
+            return false;
         } 
 
-        public void Delete(int id)
+        public bool Delete(int id)
         {
             var productToDelete = _productRepository.Get(id);
             if(productToDelete != null)
+            {
                 _productRepository.Delete(productToDelete);
-            return;
+                return true;
+            }
+            return false;
         }
 
-        public void Update(Product product)
+        public bool Update(Product product)
         {
-            if (UsedId(product.Id_Product))
+            Category categoryById = _categoryRepository.Get(product.Id_Category);
+            if (UsedId(product.Id_Product) && categoryById != null)
+            {
                 _productRepository.Update(product);
-            return;
+                return true;
+            }
+            return false;
         }
         
     }
