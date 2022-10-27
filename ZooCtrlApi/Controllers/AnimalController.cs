@@ -18,7 +18,7 @@ namespace ZooCtrlApi.Controllers
         [HttpGet]
         public IActionResult GetAll() => Ok(_animalService.GetAll());
 
-        [HttpGet]
+        [HttpGet("{id}")]
         public IActionResult GetById(int id)
         {
             var animalById = _animalService.GetById(id);
@@ -45,7 +45,7 @@ namespace ZooCtrlApi.Controllers
             return BadRequest();
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
             var animalDelete = _animalService.Delete(id);

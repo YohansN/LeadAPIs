@@ -35,7 +35,7 @@ namespace ZooCtrlApi.Services
         
         public bool Add(Animal animal)
         {
-            //verificar se o id do animal ja existe e se o idFilo é um filo existente.
+            //verificar se o id do animal está livre(ainda n existe) e se o idFilo é um filo já existente.
             Filo filo = _filoRepository.GetById(animal.IdFilo);
             if (!UsedId(animal.IdAnimal) && filo != null)
             {
@@ -47,6 +47,7 @@ namespace ZooCtrlApi.Services
 
         public bool Update(Animal animal)
         {
+            //verificar se o id do animal existe e se o idFilo é um filo que vai ser atualizado é existente.
             Filo filo = _filoRepository.GetById(animal.IdFilo);
             if (UsedId(animal.IdAnimal) && filo != null)
             {

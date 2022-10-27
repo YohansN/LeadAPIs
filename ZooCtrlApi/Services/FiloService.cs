@@ -28,29 +28,36 @@ namespace ZooCtrlApi.Services
         {
             if (UsedId(id))
                 return _filoRepository.GetById(id);
-            //modificar depois: retornar notFound()
             return null;
         }
 
-        public void Add(Filo filo)
+        public bool Add(Filo filo)
         {
             if(UsedId(filo.IdFilo))
-                return; //modificar 
+                return false;
             _filoRepository.Add(filo);
+            return true;
         }
 
-        public void Delete(int id)
+        public bool Update(Filo filo)
         {
-            if(UsedId(id))
-                _filoRepository.Delete(id);
-            return; //modificar 
-        }
-
-        public void Update(Filo filo)
-        {
-            if(UsedId(filo.IdFilo))
+            if (UsedId(filo.IdFilo))
+            {
                 _filoRepository.Update(filo);
-            return; //modificar 
+                return true;
+            }
+            return false;
         }
+
+        public bool Delete(int id)
+        {
+            if (UsedId(id))
+            {
+                _filoRepository.Delete(id);
+                return true;
+            }
+            return false; 
+        }
+
     }
 }

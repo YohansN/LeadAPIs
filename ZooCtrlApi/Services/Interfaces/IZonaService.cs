@@ -7,8 +7,8 @@ namespace ZooCtrlApi.Services.Interfaces
     {
         public List<Zona> GetAll();
         public Zona GetById(int id);
-        public void Add(Zona zona);
-        public void Delete(int id);
-        public void Update(Zona zona);
+        public bool Add(Zona zona);
+        public bool Delete(int id);
+        public bool Update(Zona zona);
     }
 }

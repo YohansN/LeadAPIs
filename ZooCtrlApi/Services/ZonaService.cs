@@ -1,16 +1,19 @@
 ﻿using System.Collections.Generic;
 using ZooCtrlApi.Models;
+using ZooCtrlApi.Repositories.Interfaces;
 using ZooCtrlApi.Services.Interfaces;
 
 namespace ZooCtrlApi.Services
 {
     public class ZonaService : IZonaService
     {
-        private IZonaService _zonaService;
+        private IZonaRepository _zonaRepository;
+        private IFiloRepository _filoRepository;
 
-        public ZonaService(IZonaService zonaService)
+        public ZonaService(IZonaRepository zonaRepository, IFiloRepository filoRepository)
         {
-            _zonaService = zonaService;
+            _zonaRepository = zonaRepository;
+            _filoRepository = filoRepository;
         }
 
          private bool UsedId(int id)
@@ -21,35 +24,47 @@ namespace ZooCtrlApi.Services
             return false;
         }
 
-        public List<Zona> GetAll() => _zonaService.GetAll();
+        public List<Zona> GetAll() => _zonaRepository.GetAll();
 
         public Zona GetById(int id)
         {
             if (UsedId(id))
-                return _zonaService.GetById(id);
-            //modificar depois: retornar notFound()
+                return _zonaRepository.GetById(id);
             return null;
         }
 
-        public void Add(Zona zona)
+        public bool Add(Zona zona)
         {
-            if (UsedId(zona.IdZona))
-                return; //modificar 
-            _zonaService.Add(zona);
+            //verificar se o id da Zona está livre(ainda n existe) e se o idFilo é um filo já existente.
+            Filo filo = _filoRepository.GetById(zona.IdFilo);
+            if (!UsedId(zona.IdZona) && filo != null)
+            {
+                _zonaRepository.Add(zona);
+                return true;
+            }
+            return false;
         }
 
-        public void Delete(int id)
+        public bool Delete(int id)
         {
             if (UsedId(id))
-                _zonaService.Delete(id);
-            return; //modificar 
+            {
+                _zonaRepository.Delete(id);
+                return true;
+            }
+            return false;
         }
 
-        public void Update(Zona zona)
+        public bool Update(Zona zona)
         {
-            if (UsedId(zona.IdZona))
-                _zonaService.Update(zona);
-            return; //modificar 
+            //verificar se o id do animal existe e se o idFilo é um filo que vai ser atualizado é existente.
+            Filo filo = _filoRepository.GetById(zona.IdFilo);
+            if (UsedId(zona.IdZona) && filo != null)
+            {
+                _zonaRepository.Update(zona);
+                return true;
+            }
+            return false;
         }
     }
 }
