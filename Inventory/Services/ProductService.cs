@@ -35,7 +35,7 @@ namespace Inventory.Services
         public bool Add(Product product)
         {
             Category categoryById = _categoryRepository.Get(product.Id_Category);
-            if (!UsedId(product.Id_Product) && categoryById != null)
+            if (!UsedId(product.Id_Product) && categoryById != null && product.Id_Product > 0)
             {
                 _productRepository.Add(product);
                 return true;

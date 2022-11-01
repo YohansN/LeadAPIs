@@ -46,8 +46,8 @@ namespace Inventory.Controllers
         {
             var categoryAdd = _categoryService.Add(category);
             if(categoryAdd)
-                return BadRequest();
-            return Ok(category);
+                return Ok(category);
+            return BadRequest();
         } 
 
         /// <summary>

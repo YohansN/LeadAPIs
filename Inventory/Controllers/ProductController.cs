@@ -46,8 +46,8 @@ namespace Inventory.Controllers
         {
             bool productAdd = _productService.Add(product);
             if(productAdd)
-                return BadRequest();
-            return Ok(productAdd);
+                return Ok();
+            return BadRequest();
         }
 
         /// <summary>

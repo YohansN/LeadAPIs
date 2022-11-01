@@ -32,7 +32,7 @@ namespace Inventory.Services
 
         public bool Add(Category category)
         {
-            if (!UsedId(category.Id_Category))
+            if (!UsedId(category.Id_Category) && category.Id_Category > 0)
             {
                 _categoryRepository.Add(category);
                 return true;
