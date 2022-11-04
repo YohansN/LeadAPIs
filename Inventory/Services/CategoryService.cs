@@ -28,7 +28,7 @@ namespace Inventory.Services
             return categoryGetAll;
         } 
 
-        public async Task<Category>? Get(int id)
+        public async Task<Category?> Get(int id)
         {
             if (await UsedId(id))
             {

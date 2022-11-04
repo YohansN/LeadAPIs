@@ -1,18 +1,19 @@
 ﻿using Inventory.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Inventory.Services.Interfaces
 {
     public interface IProductService
     {
-        List<Product> GetAll();
+        Task<List<Product>> GetAll();
 
-        Product Get(int id);
+        Task<Product> Get(int id);
 
-        bool Add(Product product);
+        Task<bool> Add(Product product);
 
-        bool Delete(int id);
+        Task<bool> Delete(int id);
 
-        bool Update(Product product);
+        Task<bool> Update(Product product);
     }
 }

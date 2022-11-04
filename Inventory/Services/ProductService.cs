@@ -3,63 +3,67 @@ using Inventory.Repositories;
 using Inventory.Repositories.Interfaces;
 using Inventory.Services.Interfaces;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Inventory.Services
 {
     public class ProductService : IProductService
     {
-        private IProductRepository _productRepository;
-        private ICategoryRepository _categoryRepository;
+        private readonly IProductRepository _productRepository;
+        private readonly ICategoryRepository _categoryRepository;
         public ProductService(IProductRepository productRepository, ICategoryRepository categoryRepository)
         {
             this._productRepository = productRepository;
             this._categoryRepository = categoryRepository;
         }
-        private bool UsedId(int id)
+        private async Task<bool> UsedId(int id)
         {
-            var productList = _productRepository.GetAll();
+            var productList = await _productRepository.GetAll();
             if(productList.Exists(p => p.Id_Product == id))
                 return true;
             return false;
         }
 
-        public List<Product> GetAll() => _productRepository.GetAll();
+        public async Task<List<Product>> GetAll() => await _productRepository.GetAll();
 
-        public Product? Get(int id)
+        public async Task<Product?> Get(int id)
         {
-            if(UsedId(id))
-                return _productRepository.Get(id);
+            if(await UsedId(id))
+            {
+                var productGet = await _productRepository.Get(id);
+                return productGet;
+            }
             return null;
         } 
 
-        public bool Add(Product product)
+        public async Task<bool> Add(Product product)
         {
-            Category categoryById = _categoryRepository.Get(product.Id_Category);
-            if (!UsedId(product.Id_Product) && categoryById != null && product.Id_Product > 0)
+            Category categoryById = await _categoryRepository.Get(product.Id_Category);
+            if (!(await UsedId(product.Id_Product)) && categoryById != null && product.Id_Product > 0)
             {
-                _productRepository.Add(product);
+                await _productRepository.Add(product);
                 return true;
             }
             return false;
         } 
 
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            var productToDelete = _productRepository.Get(id);
+            var productToDelete = await _productRepository.Get(id);
             if(productToDelete != null)
             {
-                _productRepository.Delete(productToDelete);
+                await _productRepository.Delete(productToDelete);
                 return true;
             }
             return false;
         }
 
-        public bool Update(Product product)
+        public async Task<bool> Update(Product product)
         {
-            Category categoryById = _categoryRepository.Get(product.Id_Category);
-            if (UsedId(product.Id_Product) && categoryById != null)
+            Category categoryById = await _categoryRepository.Get(product.Id_Category);
+            if (await UsedId(product.Id_Product) && categoryById != null)
             {
-                _productRepository.Update(product);
+                await _productRepository.Update(product);
                 return true;
             }
             return false;

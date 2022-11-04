@@ -1,19 +1,20 @@
 ﻿using Inventory.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Inventory.Repositories.Interfaces
 {
     public interface IProductRepository
     {
-        List<Product> GetAll();
+        Task<List<Product>> GetAll();
 
-        Product Get(int id);
+        Task<Product> Get(int id);
 
-        void Add(Product product);
+        Task Add(Product product);
 
-        void Delete(Product productToDelete);
+        Task Delete(Product productToDelete);
 
-        void Update(Product product);
+        Task Update(Product product);
         
     }
 }
