@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ZooCtrlApi.Data;
 using ZooCtrlApi.Models;
 using ZooCtrlApi.Repositories.Interfaces;
@@ -8,38 +10,40 @@ namespace ZooCtrlApi.Repositories
 {
     public class AnimalRepository : IAnimalRepository
     {
-        private Context _context;
+        private readonly Context _context;
         public AnimalRepository(Context context)
         {
             this._context = context;
         }
         
-        public List<Animal> GetAll()
+        public async Task<List<Animal>> GetAll()
         {
-            return _context.Animals.ToList();
+            var listAnimals = await _context.Animals.ToListAsync();
+            return listAnimals;
         }
         
-        public Animal GetById(int id)
+        public async Task<Animal> GetById(int id)
         {
-            return _context.Animals.FirstOrDefault(a => a.IdAnimal == id);
+            var animalById = await _context.Animals.FirstOrDefaultAsync(a => a.IdAnimal == id);
+            return animalById;
         }
         
-        public void Add(Animal animal)
+        public async Task Add(Animal animal)
         {
             _context.Animals.Add(animal);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
         
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            _context.Animals.Remove(GetById(id));
-            _context.SaveChanges();
+            _context.Animals.Remove(await GetById(id));
+            await _context.SaveChangesAsync();
         }
         
-        public void Update(Animal animal)
+        public async Task Update(Animal animal)
         {
             _context.Animals.Update(animal);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

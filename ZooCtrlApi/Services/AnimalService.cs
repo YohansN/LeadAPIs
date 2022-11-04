@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Update.Internal;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using ZooCtrlApi.Models;
 using ZooCtrlApi.Repositories.Interfaces;
 using ZooCtrlApi.Services.Interfaces;
@@ -9,59 +10,66 @@ namespace ZooCtrlApi.Services
     public class AnimalService : IAnimalService
     {
         private readonly IAnimalRepository _animalRepository;
-        private IFiloRepository _filoRepository;
+        private readonly IFiloRepository _filoRepository;
         public AnimalService(IAnimalRepository animalRepository, IFiloRepository filoRepository)
         {
             this._animalRepository = animalRepository;
             this._filoRepository = filoRepository;
         }
         
-        private bool UsedId(int id)
+        private async Task<bool> UsedId(int id)
         {
-            var listAnimal = GetAll();
+            var listAnimal = await _animalRepository.GetAll();
             if(listAnimal.Exists(x => x.IdAnimal == id))
                 return true;
             return false;
         }
 
-        public List<Animal> GetAll() => _animalRepository.GetAll();
-
-        public Animal GetById(int id)
+        public async Task<List<Animal>> GetAll()
         {
-            if(UsedId(id))
-                return _animalRepository.GetById(id);
+            var getAllAnimals = await _animalRepository.GetAll();
+            return getAllAnimals;
+        } 
+
+        public async Task<Animal> GetById(int id)
+        {
+            if (await UsedId(id))
+            {
+                var animalById = await _animalRepository.GetById(id);
+                return animalById;
+            }
             return null;
         }
         
-        public bool Add(Animal animal)
+        public async Task<bool> Add(Animal animal)
         {
             //verificar se o id do animal está livre(ainda n existe) e se o idFilo é um filo já existente.
             Filo filo = _filoRepository.GetById(animal.IdFilo);
-            if (!UsedId(animal.IdAnimal) && filo != null)
+            if (!(await UsedId(animal.IdAnimal)) && filo != null)
             {
-                _animalRepository.Add(animal);
+                await _animalRepository.Add(animal);
                 return true;
             }
             return false;
         }
 
-        public bool Update(Animal animal)
+        public async Task<bool> Update(Animal animal)
         {
             //verificar se o id do animal existe e se o idFilo é um filo que vai ser atualizado é existente.
             Filo filo = _filoRepository.GetById(animal.IdFilo);
-            if (UsedId(animal.IdAnimal) && filo != null)
+            if (await UsedId(animal.IdAnimal) && filo != null)
             {
-                _animalRepository.Update(animal);
+                await _animalRepository.Update(animal);
                 return true;
             }
             return false;
         }
 
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            if (UsedId(id))
+            if (await UsedId(id))
             {
-                _animalRepository.Delete(id);
+                await _animalRepository.Delete(id);
                 return true;
             }
             return false; 

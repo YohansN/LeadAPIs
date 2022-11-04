@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using ZooCtrlApi.Models;
 
 namespace ZooCtrlApi.Repositories.Interfaces
 {
     public interface IAnimalRepository
     {
-        public List<Animal> GetAll();
-        public Animal GetById(int id);
-        public void Add(Animal animal);
-        public void Delete(int id);
-        public void Update(Animal animal);
+        public Task<List<Animal>> GetAll();
+        public Task<Animal> GetById(int id);
+        public Task Add(Animal animal);
+        public Task Delete(int id);
+        public Task Update(Animal animal);
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using ZooCtrlApi.Models;
 using ZooCtrlApi.Services;
 using ZooCtrlApi.Services.Interfaces;
@@ -16,39 +17,44 @@ namespace ZooCtrlApi.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll() => Ok(_animalService.GetAll());
+        public async Task<IActionResult> GetAll()
+        {
+            var getAllAnimals = await _animalService.GetAll();
+            return Ok(getAllAnimals);
+        }
+            
 
         [HttpGet("{id}")]
-        public IActionResult GetById(int id)
+        public async Task<IActionResult> GetById(int id)
         {
-            var animalById = _animalService.GetById(id);
+            var animalById = await _animalService.GetById(id);
             if(animalById != null)
                 return Ok(animalById);
             return NotFound();
         }
 
         [HttpPost]
-        public IActionResult Add(Animal animal)
+        public async Task<IActionResult> Add(Animal animal)
         {
-            var animalAdd = _animalService.Add(animal);
+            var animalAdd = await _animalService.Add(animal);
             if (animalAdd)
                 return NoContent();
             return BadRequest();
         }
 
         [HttpPut]
-        public IActionResult Update(Animal animal)
+        public async Task<IActionResult> Update(Animal animal)
         {
-            var animalUpdate = _animalService.Update(animal);
+            var animalUpdate = await _animalService.Update(animal);
             if(animalUpdate)
                 NoContent();
             return BadRequest();
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            var animalDelete = _animalService.Delete(id);
+            var animalDelete = await _animalService.Delete(id);
             if (animalDelete)
                 return NoContent();
             return BadRequest();

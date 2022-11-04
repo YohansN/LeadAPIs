@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using ZooCtrlApi.Models;
 
 namespace ZooCtrlApi.Services.Interfaces
 {
     public interface IAnimalService
     {
-        public List<Animal> GetAll();
-        public Animal GetById(int id);
-        public bool Add(Animal animal);
-        public bool Delete(int id);
-        public bool Update(Animal animal);
+        public Task<List<Animal>> GetAll();
+        public Task<Animal> GetById(int id);
+        public Task<bool> Add(Animal animal);
+        public Task<bool> Delete(int id);
+        public Task<bool> Update(Animal animal);
     }
 }
