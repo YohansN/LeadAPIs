@@ -31,6 +31,9 @@ namespace Inventory.Controllers
         [HttpGet("{id}")]
         public IActionResult GetProduct(int id)
         {
+            if (id <= 0)
+                return BadRequest();
+
             var productById = _productService.Get(id);
             if (productById != null)
                 return Ok(productById);

@@ -1,45 +1,49 @@
 ﻿using Inventory.Data;
 using Inventory.Models;
 using Inventory.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace Inventory.Repositories
 {
     public class CategoryRepository : ICategoryRepository
     {
-        private Context _context;
+        private readonly Context _context;
         public CategoryRepository(Context context)
         {
             this._context = context;
         }
 
-        public List<Category> GetAll()
+        public async Task<List<Category>> GetAll()
         {
-            return _context.Category.ToList();
+            var categoryGetAll = await _context.Category.ToListAsync();
+            return categoryGetAll;
         }
 
-        public Category Get(int id)
+        public async Task<Category> Get(int id)
         {
-            return _context.Category.FirstOrDefault(c => c.Id_Category == id);
+            var categoryGet = await _context.Category.FirstOrDefaultAsync(c => c.Id_Category == id);
+            return categoryGet;
         }
 
-        public void Add(Category category)
+        public async Task Add(Category category)
         {
             _context.Category.Add(category);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Delete(Category categoryToDelete)
+        public async Task Delete(Category categoryToDelete)
         {
             _context.Category.Remove(categoryToDelete);
-            _context.SaveChanges();   
+            await _context.SaveChangesAsync();   
         }
 
-        public void Update(Category category)
+        public async Task Update(Category category)
         {
             _context.Category.Update(category);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

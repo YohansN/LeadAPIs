@@ -3,59 +3,67 @@ using Inventory.Repositories;
 using Inventory.Repositories.Interfaces;
 using Inventory.Services.Interfaces;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Inventory.Services
 {
     public class CategoryService : ICategoryService
     {
-        private ICategoryRepository _categoryRepository;
+        private readonly ICategoryRepository _categoryRepository;
         public CategoryService(ICategoryRepository categoryRepository)
         {
             this._categoryRepository = categoryRepository;
         }
-        private bool UsedId(int id)
+        private async Task<bool> UsedId(int id)
         {
-            var productList = _categoryRepository.GetAll();
+            var productList = await _categoryRepository.GetAll();
             if (productList.Exists(p => p.Id_Category == id))
                 return true;
             return false;
         }
 
-        public List<Category> GetAll() => _categoryRepository.GetAll();
-
-        public Category? Get(int id)
+        public async Task<List<Category>> GetAll()
         {
-            if(UsedId(id))
-                return _categoryRepository.Get(id);
+            var categoryGetAll = await _categoryRepository.GetAll();
+            return categoryGetAll;
+        } 
+
+        public async Task<Category>? Get(int id)
+        {
+            if (await UsedId(id))
+            {
+                var categoryById = await _categoryRepository.Get(id);
+                return categoryById;
+            }
             return null;
         } 
 
-        public bool Add(Category category)
+        public async Task<bool> Add(Category category)
         {
-            if (!UsedId(category.Id_Category) && category.Id_Category > 0)
+            if (!(await UsedId(category.Id_Category)) && category.Id_Category > 0)
             {
-                _categoryRepository.Add(category);
+                await _categoryRepository.Add(category);
                 return true;
             }         
             return false;
         } 
 
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            var categoryToDelete = _categoryRepository.Get(id);
+            var categoryToDelete = await _categoryRepository.Get(id);
             if(categoryToDelete != null)
             {
-                _categoryRepository.Delete(categoryToDelete);
+                await _categoryRepository.Delete(categoryToDelete);
                 return true;
             }
             return false;
         }
 
-        public bool Update(Category category)
+        public async Task<bool> Update(Category category)
         {
-            if (UsedId(category.Id_Category))
+            if (await UsedId(category.Id_Category))
             {
-                _categoryRepository.Update(category);
+                await _categoryRepository.Update(category);
                 return true;
             }
             return false;

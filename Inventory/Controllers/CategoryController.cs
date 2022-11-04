@@ -3,6 +3,7 @@ using Inventory.Services;
 using Inventory.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Inventory.Controllers
 {
@@ -21,7 +22,7 @@ namespace Inventory.Controllers
         /// </summary>
         /// <returns>Ok</returns>
         [HttpGet]
-        public IActionResult GetAllCategories() => Ok(_categoryService.GetAll());
+        public async Task<IActionResult> GetAllCategories() => Ok(await _categoryService.GetAll());
         
        /// <summary>
        /// Retorna um objeto category de acordo com o id passado no parâmetro.
@@ -29,9 +30,12 @@ namespace Inventory.Controllers
        /// <param name="id"></param>
        /// <returns></returns>
         [HttpGet("{id}")]
-        public IActionResult GetCategory(int id)
+        public async Task<IActionResult> GetCategory(int id)
         {
-            var categoryById = _categoryService.Get(id);
+            if (id <= 0)
+                return BadRequest();
+
+            var categoryById = await _categoryService.Get(id);
             if(categoryById != null)
                 return Ok(categoryById);
             return NotFound();
@@ -42,9 +46,9 @@ namespace Inventory.Controllers
         /// </summary>
         /// <param name="category"></param>
         [HttpPost]
-        public IActionResult CreateCategory(Category category)
+        public async Task<IActionResult> CreateCategory(Category category)
         {
-            var categoryAdd = _categoryService.Add(category);
+            var categoryAdd = await _categoryService.Add(category);
             if(categoryAdd)
                 return Ok(category);
             return BadRequest();
@@ -55,9 +59,9 @@ namespace Inventory.Controllers
         /// </summary>
         /// <param name="id"></param>
         [HttpDelete("{id}")]
-        public IActionResult DeleteCategory(int id)
+        public async Task<IActionResult> DeleteCategory(int id)
         {
-            var categoryDelete = _categoryService.Delete(id);
+            var categoryDelete = await _categoryService.Delete(id);
             if(categoryDelete)
                 return NoContent();
             return BadRequest();
@@ -68,9 +72,9 @@ namespace Inventory.Controllers
         /// </summary>
         /// <param name="category"></param>
         [HttpPut]
-        public IActionResult UpdateCategory(Category category)
+        public async Task<IActionResult> UpdateCategory(Category category)
         {
-            var categoryUpdate = _categoryService.Update(category);
+            var categoryUpdate = await _categoryService.Update(category);
             if(categoryUpdate)
                 return NoContent();
             return BadRequest();

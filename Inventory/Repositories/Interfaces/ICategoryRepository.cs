@@ -1,18 +1,19 @@
 ﻿using Inventory.Models;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Inventory.Repositories.Interfaces
 {
     public interface ICategoryRepository
     {
-        List<Category> GetAll();
+        Task<List<Category>> GetAll();
 
-        Category Get(int id);
+        Task<Category> Get(int id);
 
-        void Add(Category category);
+        Task Add(Category category);
 
-        void Delete(Category categoryToDelete);
+        Task Delete(Category categoryToDelete);
 
-        void Update(Category category);
+        Task Update(Category category);
     }
 }
