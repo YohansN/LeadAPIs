@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using ZooCtrlApi.Data;
 using ZooCtrlApi.Models;
 using ZooCtrlApi.Repositories.Interfaces;
@@ -8,38 +10,41 @@ namespace ZooCtrlApi.Repositories
 {
     public class FiloRepository : IFiloRepository
     {
-        private Context _context;
+        private readonly Context _context;
         public FiloRepository(Context context)
         {
             this._context = context;
         }
 
-        public List<Filo> GetAll()
+        public async Task<List<Filo>> GetAll()
         {
-            return _context.Filos.ToList();
+            var filoGetAll = await _context.Filos.ToListAsync();
+            return filoGetAll;
         }
 
-        public Filo GetById(int id)
+        public async Task<Filo> GetById(int id)
         {
-            return _context.Filos.FirstOrDefault(f => f.IdFilo == id);
+            
+            var filoGetById = await _context.Filos.FirstOrDefaultAsync(f => f.IdFilo == id);
+            return filoGetById;
         }
 
-        public void Add(Filo filo)
+        public async Task Add(Filo filo)
         {
             _context.Filos.Add(filo);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void Delete(int id)
+        public async Task Delete(int id)
         {
-            _context.Filos.Remove(GetById(id));
-            _context.SaveChanges();
+            _context.Filos.Remove(await GetById(id));
+            await _context.SaveChangesAsync();
         }
 
-        public void Update(Filo filo)
+        public async Task Update(Filo filo)
         {
             _context.Filos.Update(filo);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

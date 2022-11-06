@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using ZooCtrlApi.Models;
 using ZooCtrlApi.Repositories.Interfaces;
 using ZooCtrlApi.Services.Interfaces;
@@ -14,46 +15,54 @@ namespace ZooCtrlApi.Services
         }
 
         //Verifica se um Id está ou não sendo usado(existente).
-        private bool UsedId(int id)
+        private async Task<bool> UsedId(int id)
         {
-            var listFilo = GetAll();
+            var listFilo = await _filoRepository.GetAll();
             if (listFilo.Exists(x => x.IdFilo == id))
                 return true;
             return false;
         }
 
-        public List<Filo> GetAll() => _filoRepository.GetAll();
-
-        public Filo GetById(int id)
+        public async Task<List<Filo>> GetAll()
         {
-            if (UsedId(id))
-                return _filoRepository.GetById(id);
+            var filoGetAll = await _filoRepository.GetAll();
+            return filoGetAll;
+        }
+        
+
+        public async Task<Filo> GetById(int id)
+        {
+            if (await UsedId(id))
+            {
+                var filoGetById = await _filoRepository.GetById(id);
+                return filoGetById;
+            }              
             return null;
         }
 
-        public bool Add(Filo filo)
+        public async Task<bool> Add(Filo filo)
         {
-            if(UsedId(filo.IdFilo))
+            if(await UsedId(filo.IdFilo))
                 return false;
-            _filoRepository.Add(filo);
+            await _filoRepository.Add(filo);
             return true;
         }
 
-        public bool Update(Filo filo)
+        public async Task<bool> Update(Filo filo)
         {
-            if (UsedId(filo.IdFilo))
+            if (await UsedId(filo.IdFilo))
             {
-                _filoRepository.Update(filo);
+                await _filoRepository.Update(filo);
                 return true;
             }
             return false;
         }
 
-        public bool Delete(int id)
+        public async Task<bool> Delete(int id)
         {
-            if (UsedId(id))
+            if (await UsedId(id))
             {
-                _filoRepository.Delete(id);
+                await _filoRepository.Delete(id);
                 return true;
             }
             return false; 

@@ -1,14 +1,15 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using ZooCtrlApi.Models;
 
 namespace ZooCtrlApi.Repositories.Interfaces
 {
     public interface IFiloRepository
     {
-        public List<Filo> GetAll();
-        public Filo GetById(int id);
-        public void Add(Filo filo);
-        public void Delete(int id);
-        public void Update(Filo filo);
+        public Task<List<Filo>> GetAll();
+        public Task<Filo> GetById(int id);
+        public Task Add(Filo filo);
+        public Task Delete(int id);
+        public Task Update(Filo filo);
     }
 }
