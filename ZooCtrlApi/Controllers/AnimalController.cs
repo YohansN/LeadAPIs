@@ -10,7 +10,7 @@ namespace ZooCtrlApi.Controllers
     [Route("[controller]")]
     public class AnimalController : ControllerBase
     {
-        private IAnimalService _animalService;
+        private readonly IAnimalService _animalService;
         public AnimalController(IAnimalService animalService)
         {
             this._animalService = animalService;

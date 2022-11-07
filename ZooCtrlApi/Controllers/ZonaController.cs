@@ -6,6 +6,8 @@ using ZooCtrlApi.Services.Interfaces;
 
 namespace ZooCtrlApi.Controllers
 {
+    [ApiController]
+    [Route("[controller]")]
     public class ZonaController : ControllerBase
     {
         private readonly IZonaService _zonaService;

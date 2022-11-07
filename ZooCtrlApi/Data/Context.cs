@@ -10,8 +10,8 @@ namespace ZooCtrlApi.Data
             optionsBuilder.UseSqlServer("Data Source=DESKTOP-BKEG8HP;Initial Catalog=ZooCtrlApi;Integrated Security=True");
         }
 
-        public DbSet<Animal> Animals { get; set; }
-        public DbSet<Filo> Filos { get; set; }
-        public DbSet<Zona> Zonas { get; set; }
+        public DbSet<Animal> Animal { get; set; }
+        public DbSet<Filo> Filo { get; set; }
+        public DbSet<Zona> Zona { get; set; }
     }
 }

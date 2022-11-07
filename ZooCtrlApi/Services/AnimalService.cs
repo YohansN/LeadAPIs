@@ -44,7 +44,7 @@ namespace ZooCtrlApi.Services
         public async Task<bool> Add(Animal animal)
         {
             //verificar se o id do animal está livre(ainda n existe) e se o idFilo é um filo já existente.
-            Filo filo = _filoRepository.GetById(animal.IdFilo);
+            Filo filo = await _filoRepository.GetById(animal.IdFilo);
             if (!(await UsedId(animal.IdAnimal)) && filo != null)
             {
                 await _animalRepository.Add(animal);
@@ -56,7 +56,7 @@ namespace ZooCtrlApi.Services
         public async Task<bool> Update(Animal animal)
         {
             //verificar se o id do animal existe e se o idFilo é um filo que vai ser atualizado é existente.
-            Filo filo = _filoRepository.GetById(animal.IdFilo);
+            Filo filo = await _filoRepository.GetById(animal.IdFilo);
             if (await UsedId(animal.IdAnimal) && filo != null)
             {
                 await _animalRepository.Update(animal);

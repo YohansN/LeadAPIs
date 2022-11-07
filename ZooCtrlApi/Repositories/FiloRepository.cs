@@ -18,32 +18,32 @@ namespace ZooCtrlApi.Repositories
 
         public async Task<List<Filo>> GetAll()
         {
-            var filoGetAll = await _context.Filos.ToListAsync();
+            var filoGetAll = await _context.Filo.ToListAsync();
             return filoGetAll;
         }
 
         public async Task<Filo> GetById(int id)
         {
             
-            var filoGetById = await _context.Filos.FirstOrDefaultAsync(f => f.IdFilo == id);
+            var filoGetById = await _context.Filo.FirstOrDefaultAsync(f => f.IdFilo == id);
             return filoGetById;
         }
 
         public async Task Add(Filo filo)
         {
-            _context.Filos.Add(filo);
+            _context.Filo.Add(filo);
             await _context.SaveChangesAsync();
         }
 
         public async Task Delete(int id)
         {
-            _context.Filos.Remove(await GetById(id));
+            _context.Filo.Remove(await GetById(id));
             await _context.SaveChangesAsync();
         }
 
         public async Task Update(Filo filo)
         {
-            _context.Filos.Update(filo);
+            _context.Filo.Update(filo);
             await _context.SaveChangesAsync();
         }
     }
