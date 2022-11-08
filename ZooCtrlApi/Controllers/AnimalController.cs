@@ -16,6 +16,10 @@ namespace ZooCtrlApi.Controllers
             this._animalService = animalService;
         }
 
+        /// <summary>
+        /// Retorna, em formato de lista de objetos, todos os animais cadastrados no banco de dados.
+        /// </summary>
+        /// <returns></returns>
         [HttpGet]
         public async Task<IActionResult> GetAll()
         {
@@ -23,16 +27,28 @@ namespace ZooCtrlApi.Controllers
             return Ok(getAllAnimals);
         }
             
-
+        /// <summary>
+        /// Retorna UM objeto animal de acordo com o ID passado como parâmetro. O ID passado deve ser válido.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)
         {
+            if (id <= 0)
+                return BadRequest("Id passado é invalido.");
+
             var animalById = await _animalService.GetById(id);
             if(animalById != null)
                 return Ok(animalById);
             return NotFound();
         }
 
+        /// <summary>
+        /// Cadastra um objeto animal no banco de dados.
+        /// </summary>
+        /// <param name="animal"></param>
+        /// <returns></returns>
         [HttpPost]
         public async Task<IActionResult> Add(Animal animal)
         {
@@ -42,6 +58,11 @@ namespace ZooCtrlApi.Controllers
             return BadRequest();
         }
 
+        /// <summary>
+        /// Atualiza um objeto animal no banco de dados. Os parâmetros passados ao objeto devem ser válidos.
+        /// </summary>
+        /// <param name="animal"></param>
+        /// <returns></returns>
         [HttpPut]
         public async Task<IActionResult> Update(Animal animal)
         {
@@ -51,9 +72,17 @@ namespace ZooCtrlApi.Controllers
             return BadRequest();
         }
 
+        /// <summary>
+        /// Apaga um objeto animal do banco de dados caso ele exista. O Id passado deve ser válido e existente.
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
+            if (id <= 0)
+                return BadRequest("Id passado é invalido.");
+
             var animalDelete = await _animalService.Delete(id);
             if (animalDelete)
                 return NoContent();
