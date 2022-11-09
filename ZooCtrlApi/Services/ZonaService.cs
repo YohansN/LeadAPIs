@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using ZooCtrlApi.Models;
 using ZooCtrlApi.Repositories.Interfaces;
@@ -46,7 +48,7 @@ namespace ZooCtrlApi.Services
         {
             //verificar se o id da Zona está livre(ainda n existe) e se o idFilo é um filo já existente.
             Filo filo = await _filoRepository.GetById(zona.IdFilo);
-            if (!(await UsedId(zona.IdZona)) && filo != null)
+            if (!(await UsedId(zona.IdZona)) && filo != null && !String.IsNullOrEmpty(zona.Nome))
             {
                 await _zonaRepository.Add(zona);
                 return true;
@@ -68,7 +70,7 @@ namespace ZooCtrlApi.Services
         {
             //verificar se o id do animal existe e se o idFilo é um filo que vai ser atualizado é existente.
             Filo filo = await _filoRepository.GetById(zona.IdFilo);
-            if (await UsedId(zona.IdZona) && filo != null)
+            if (await UsedId(zona.IdZona) && filo != null && !String.IsNullOrEmpty(zona.Nome))
             {
                 await _zonaRepository.Update(zona);
                 return true;

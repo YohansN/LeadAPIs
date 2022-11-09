@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Update.Internal;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using ZooCtrlApi.Models;
@@ -43,9 +44,9 @@ namespace ZooCtrlApi.Services
         
         public async Task<bool> Add(Animal animal)
         {
-            //verificar se o id do animal está livre(ainda n existe) e se o idFilo é um filo já existente.
+            //verificar se o id do animal está livre(ainda n existe), se o idFilo é um filo já existente, e se o nome não esta nulo ou vazio.
             Filo filo = await _filoRepository.GetById(animal.IdFilo);
-            if (!(await UsedId(animal.IdAnimal)) && filo != null)
+            if (!(await UsedId(animal.IdAnimal)) && filo != null && !String.IsNullOrEmpty(animal.Nome))
             {
                 await _animalRepository.Add(animal);
                 return true;
@@ -55,9 +56,9 @@ namespace ZooCtrlApi.Services
 
         public async Task<bool> Update(Animal animal)
         {
-            //verificar se o id do animal existe e se o idFilo é um filo que vai ser atualizado é existente.
+            //verificar se o id do animal existe, se o idFilo que vai ser atualizado é existente, e se o nome não está nulo ou vazio.
             Filo filo = await _filoRepository.GetById(animal.IdFilo);
-            if (await UsedId(animal.IdAnimal) && filo != null)
+            if (await UsedId(animal.IdAnimal) && filo != null && !String.IsNullOrEmpty(animal.Nome))
             {
                 await _animalRepository.Update(animal);
                 return true;

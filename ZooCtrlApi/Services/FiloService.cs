@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using ZooCtrlApi.Models;
 using ZooCtrlApi.Repositories.Interfaces;
@@ -42,15 +43,17 @@ namespace ZooCtrlApi.Services
 
         public async Task<bool> Add(Filo filo)
         {
-            if(await UsedId(filo.IdFilo))
-                return false;
-            await _filoRepository.Add(filo);
-            return true;
+            if(!(await UsedId(filo.IdFilo)) && !String.IsNullOrEmpty(filo.Nome))
+            {
+                await _filoRepository.Add(filo);
+                return true;
+            }
+            return false;
         }
 
         public async Task<bool> Update(Filo filo)
         {
-            if (await UsedId(filo.IdFilo))
+            if (await UsedId(filo.IdFilo) && !String.IsNullOrEmpty(filo.Nome))
             {
                 await _filoRepository.Update(filo);
                 return true;
