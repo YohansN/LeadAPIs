@@ -67,7 +67,7 @@ namespace ZooCtrlApi.Controllers
         {
             var zonaUpdate = await _zonaService.Update(zona);
             if (zonaUpdate)
-                return NoContent();
+                return Ok();
             return BadRequest();
         }
 

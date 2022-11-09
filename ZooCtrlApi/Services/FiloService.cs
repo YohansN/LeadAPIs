@@ -9,10 +9,12 @@ namespace ZooCtrlApi.Services
 {
     public class FiloService : IFiloService
     {
-        private IFiloRepository _filoRepository;
-        public FiloService(IFiloRepository filoRepository)
+        private readonly IFiloRepository _filoRepository;
+        private readonly IAnimalRepository _animalRepository;
+        public FiloService(IFiloRepository filoRepository, IAnimalRepository animalRepository)
         {
             this._filoRepository = filoRepository;
+            this._animalRepository = animalRepository;
         }
 
         //Verifica se um Id está ou não sendo usado(existente).
@@ -61,9 +63,11 @@ namespace ZooCtrlApi.Services
             return false;
         }
 
+        //Verificar se existem animais - Caso verdadeiro: retornar bad request. So é possivel apagar um filo caso ele não esteja sendo usado.
         public async Task<bool> Delete(int id)
         {
-            if (await UsedId(id))
+            var listAnimal = await _animalRepository.GetAll();
+            if (await UsedId(id) && !(listAnimal.Exists(x => x.IdFilo == id)))
             {
                 await _filoRepository.Delete(id);
                 return true;

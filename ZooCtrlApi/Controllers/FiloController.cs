@@ -63,7 +63,7 @@ namespace ZooCtrlApi.Controllers
         {
             var filoUpdate = await _filoService.Update(filo);
             if (filoUpdate)
-                return NoContent();
+                return Ok();
             return BadRequest();
         }
 

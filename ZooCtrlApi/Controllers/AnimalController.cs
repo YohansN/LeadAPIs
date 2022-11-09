@@ -54,7 +54,7 @@ namespace ZooCtrlApi.Controllers
         {
             var animalAdd = await _animalService.Add(animal);
             if (animalAdd)
-                return NoContent();
+                return Ok();
             return BadRequest();
         }
 
@@ -68,7 +68,7 @@ namespace ZooCtrlApi.Controllers
         {
             var animalUpdate = await _animalService.Update(animal);
             if(animalUpdate)
-                NoContent();
+                Ok();
             return BadRequest();
         }
 
