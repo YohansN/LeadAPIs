@@ -20,8 +20,8 @@ namespace ZooCtrlApi.Services
         
         private async Task<bool> UsedId(int id)
         {
-            var listAnimal = await _animalRepository.GetAll();
-            if(listAnimal.Exists(x => x.IdAnimal == id))
+            var listAnimal = await _animalRepository.GetById(id);
+            if(listAnimal != null)
                 return true;
             return false;
         }

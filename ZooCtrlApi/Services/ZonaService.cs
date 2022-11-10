@@ -21,8 +21,8 @@ namespace ZooCtrlApi.Services
 
          private async Task<bool> UsedId(int id)
         {
-            var listZona = await _zonaRepository.GetAll();
-            if (listZona.Exists(x => x.IdZona == id))
+            var listZona = await _zonaRepository.GetById(id);
+            if (listZona != null)
                 return true;
             return false;
         }

@@ -20,8 +20,8 @@ namespace ZooCtrlApi.Services
         //Verifica se um Id está ou não sendo usado(existente).
         private async Task<bool> UsedId(int id)
         {
-            var listFilo = await _filoRepository.GetAll();
-            if (listFilo.Exists(x => x.IdFilo == id))
+            var listFilo = await _filoRepository.GetById(id);
+            if (listFilo != null)
                 return true;
             return false;
         }
@@ -66,8 +66,8 @@ namespace ZooCtrlApi.Services
         //Verificar se existem animais - Caso verdadeiro: retornar bad request. So é possivel apagar um filo caso ele não esteja sendo usado.
         public async Task<bool> Delete(int id)
         {
-            var listAnimal = await _animalRepository.GetAll();
-            if (await UsedId(id) && !(listAnimal.Exists(x => x.IdFilo == id)))
+            var listAnimal = await _animalRepository.GetById(id);
+            if (await UsedId(id) && !(listAnimal != null))
             {
                 await _filoRepository.Delete(id);
                 return true;
