@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 using ZooCtrlApi.Models;
 using ZooCtrlApi.Services.Interfaces;
@@ -20,7 +21,11 @@ namespace ZooCtrlApi.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetAll() => Ok(await _filoService.GetAll());
+        public async Task<IActionResult> GetAll()
+        {
+            var filoGetAll = await _filoService.GetAll();
+            return Ok(filoGetAll);
+        }
 
         /// <summary>
         /// Retorna UM objeto Filo de acordo com o ID passado como parâmetro. O ID passado deve ser válido.
@@ -47,6 +52,9 @@ namespace ZooCtrlApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(Filo filo)
         {
+            if (String.IsNullOrEmpty(filo.Nome) || filo.IdFilo <= 0)
+                return BadRequest("Nome e/ou Id invalido(s).");
+
             var filoAdd = await _filoService.Add(filo);
             if(filoAdd)
                 return Created("Filo cadastrado!", filo);
@@ -61,6 +69,9 @@ namespace ZooCtrlApi.Controllers
         [HttpPut]
         public async Task<IActionResult> Update(Filo filo)
         {
+            if (String.IsNullOrEmpty(filo.Nome) || filo.IdFilo <= 0)
+                return BadRequest("Nome e/ou Id invalido(s).");
+
             var filoUpdate = await _filoService.Update(filo);
             if (filoUpdate)
                 return Ok();

@@ -39,7 +39,7 @@ namespace ZooCtrlApi.Services
         {
             //verificar se o id da Zona está livre(ainda n existe) e se o idFilo é um filo já existente.
             Filo filo = await _filoRepository.GetById(zona.IdFilo);
-            if (!(await _zonaRepository.IdExistsAsync(zona.IdZona)) && filo != null && !String.IsNullOrEmpty(zona.Nome))
+            if (!(await _zonaRepository.IdExistsAsync(zona.IdZona)) && filo != null)
             {
                 await _zonaRepository.Add(zona);
                 return true;
@@ -61,7 +61,7 @@ namespace ZooCtrlApi.Services
         {
             //verificar se o id do animal existe e se o idFilo é um filo que vai ser atualizado é existente.
             Filo filo = await _filoRepository.GetById(zona.IdFilo);
-            if (await _zonaRepository.IdExistsAsync(zona.IdZona) && filo != null && !String.IsNullOrEmpty(zona.Nome))
+            if (await _zonaRepository.IdExistsAsync(zona.IdZona) && filo != null)
             {
                 await _zonaRepository.Update(zona);
                 return true;

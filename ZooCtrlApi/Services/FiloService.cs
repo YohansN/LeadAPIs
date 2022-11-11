@@ -36,7 +36,7 @@ namespace ZooCtrlApi.Services
 
         public async Task<bool> Add(Filo filo)
         {
-            if(!(await _filoRepository.IdExistsAsync(filo.IdFilo)) && !String.IsNullOrEmpty(filo.Nome))
+            if(!(await _filoRepository.IdExistsAsync(filo.IdFilo)))
             {
                 await _filoRepository.Add(filo);
                 return true;
@@ -46,7 +46,7 @@ namespace ZooCtrlApi.Services
 
         public async Task<bool> Update(Filo filo)
         {
-            if (await _filoRepository.IdExistsAsync(filo.IdFilo) && !String.IsNullOrEmpty(filo.Nome))
+            if (await _filoRepository.IdExistsAsync(filo.IdFilo))
             {
                 await _filoRepository.Update(filo);
                 return true;
@@ -54,11 +54,11 @@ namespace ZooCtrlApi.Services
             return false;
         }
 
-        //Verificar se existem animais - Caso verdadeiro: retornar bad request. So é possivel apagar um filo caso ele não esteja sendo usado.
+        //Verificar se existem animais - Caso verdadeiro: retornar bad request. So é possivel apagar um filo caso ele não esteja sendo usado - ou seja, nenhum animal atrelado a ele.
         public async Task<bool> Delete(int id)
         {
             var listAnimal = await _animalRepository.GetById(id);
-            if (await _filoRepository.IdExistsAsync(id) && !(listAnimal != null))
+            if (await _filoRepository.IdExistsAsync(id) && (listAnimal == null))
             {
                 await _filoRepository.Delete(id);
                 return true;

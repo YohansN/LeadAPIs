@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 using ZooCtrlApi.Models;
 using ZooCtrlApi.Services;
@@ -52,6 +53,9 @@ namespace ZooCtrlApi.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(Animal animal)
         {
+            if (String.IsNullOrEmpty(animal.Nome) || animal.IdAnimal <= 0)
+                return BadRequest("Nome e/ou Id invalido(s).");
+
             var animalAdd = await _animalService.Add(animal);
             if (animalAdd)
                 return Created("Animal cadastrado!", animal);
@@ -66,6 +70,9 @@ namespace ZooCtrlApi.Controllers
         [HttpPut]
         public async Task<IActionResult> Update(Animal animal)
         {
+            if (String.IsNullOrEmpty(animal.Nome) || animal.IdAnimal <= 0)
+                return BadRequest("Nome e/ou Id invalido(s).");
+
             var animalUpdate = await _animalService.Update(animal);
             if(animalUpdate)
                 return NoContent();
