@@ -29,6 +29,12 @@ namespace ZooCtrlApi.Repositories
             return filoGetById;
         }
 
+        public async Task<bool> IdExistsAsync(int id)
+        {
+            var exists = await _context.Filo.AnyAsync(f => f.IdFilo == id);
+            return exists;
+        }
+
         public async Task Add(Filo filo)
         {
             _context.Filo.Add(filo);

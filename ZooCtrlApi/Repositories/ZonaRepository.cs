@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using ZooCtrlApi.Data;
 using ZooCtrlApi.Models;
@@ -26,6 +27,12 @@ namespace ZooCtrlApi.Repositories
         {
             var zonaGetById = await _context.Zona.FirstOrDefaultAsync(z => z.IdZona == id);
             return zonaGetById;
+        }
+
+        public async Task<bool> IdExistsAsync(int id)
+        {
+            var exists = await _context.Zona.AnyAsync(z => z.IdZona == id);
+            return exists;
         }
 
         public async Task Add(Zona zona)

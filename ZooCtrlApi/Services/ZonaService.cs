@@ -18,25 +18,16 @@ namespace ZooCtrlApi.Services
             _zonaRepository = zonaRepository;
             _filoRepository = filoRepository;
         }
-
-         private async Task<bool> UsedId(int id)
-        {
-            var listZona = await _zonaRepository.GetById(id);
-            if (listZona != null)
-                return true;
-            return false;
-        }
-
+        
         public async Task<List<Zona>> GetAll()
         {
             var zonaGetAll = await _zonaRepository.GetAll();
             return zonaGetAll;
         }  
-            
 
         public async Task<Zona> GetById(int id)
         {
-            if (await UsedId(id))
+            if (await _zonaRepository.IdExistsAsync(id))
             {
                 var zonaGetById = await _zonaRepository.GetById(id);
                 return zonaGetById;
@@ -48,7 +39,7 @@ namespace ZooCtrlApi.Services
         {
             //verificar se o id da Zona está livre(ainda n existe) e se o idFilo é um filo já existente.
             Filo filo = await _filoRepository.GetById(zona.IdFilo);
-            if (!(await UsedId(zona.IdZona)) && filo != null && !String.IsNullOrEmpty(zona.Nome))
+            if (!(await _zonaRepository.IdExistsAsync(zona.IdZona)) && filo != null && !String.IsNullOrEmpty(zona.Nome))
             {
                 await _zonaRepository.Add(zona);
                 return true;
@@ -58,7 +49,7 @@ namespace ZooCtrlApi.Services
 
         public async Task<bool> Delete(int id)
         {
-            if (await UsedId(id))
+            if (await _zonaRepository.IdExistsAsync(id))
             {
                 await _zonaRepository.Delete(id);
                 return true;
@@ -70,7 +61,7 @@ namespace ZooCtrlApi.Services
         {
             //verificar se o id do animal existe e se o idFilo é um filo que vai ser atualizado é existente.
             Filo filo = await _filoRepository.GetById(zona.IdFilo);
-            if (await UsedId(zona.IdZona) && filo != null && !String.IsNullOrEmpty(zona.Nome))
+            if (await _zonaRepository.IdExistsAsync(zona.IdZona) && filo != null && !String.IsNullOrEmpty(zona.Nome))
             {
                 await _zonaRepository.Update(zona);
                 return true;

@@ -53,7 +53,7 @@ namespace ZooCtrlApi.Controllers
         {
             var zonaAdd = await _zonaService.Add(zona);
             if (zonaAdd)
-                return Ok();
+                return Created("Zona cadastrada!",zona);
             return BadRequest();
         }
 

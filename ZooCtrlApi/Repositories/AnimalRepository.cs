@@ -27,6 +27,12 @@ namespace ZooCtrlApi.Repositories
             var animalById = await _context.Animal.FirstOrDefaultAsync(a => a.IdAnimal == id);
             return animalById;
         }
+
+        public async Task<bool> IdExistsAsync(int id)
+        {
+            var exists = await _context.Animal.AnyAsync(a => a.IdAnimal == id);
+            return exists;
+        }
         
         public async Task Add(Animal animal)
         {

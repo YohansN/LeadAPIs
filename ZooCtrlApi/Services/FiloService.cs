@@ -17,15 +17,6 @@ namespace ZooCtrlApi.Services
             this._animalRepository = animalRepository;
         }
 
-        //Verifica se um Id está ou não sendo usado(existente).
-        private async Task<bool> UsedId(int id)
-        {
-            var listFilo = await _filoRepository.GetById(id);
-            if (listFilo != null)
-                return true;
-            return false;
-        }
-
         public async Task<List<Filo>> GetAll()
         {
             var filoGetAll = await _filoRepository.GetAll();
@@ -35,7 +26,7 @@ namespace ZooCtrlApi.Services
 
         public async Task<Filo> GetById(int id)
         {
-            if (await UsedId(id))
+            if (await _filoRepository.IdExistsAsync(id))
             {
                 var filoGetById = await _filoRepository.GetById(id);
                 return filoGetById;
@@ -45,7 +36,7 @@ namespace ZooCtrlApi.Services
 
         public async Task<bool> Add(Filo filo)
         {
-            if(!(await UsedId(filo.IdFilo)) && !String.IsNullOrEmpty(filo.Nome))
+            if(!(await _filoRepository.IdExistsAsync(filo.IdFilo)) && !String.IsNullOrEmpty(filo.Nome))
             {
                 await _filoRepository.Add(filo);
                 return true;
@@ -55,7 +46,7 @@ namespace ZooCtrlApi.Services
 
         public async Task<bool> Update(Filo filo)
         {
-            if (await UsedId(filo.IdFilo) && !String.IsNullOrEmpty(filo.Nome))
+            if (await _filoRepository.IdExistsAsync(filo.IdFilo) && !String.IsNullOrEmpty(filo.Nome))
             {
                 await _filoRepository.Update(filo);
                 return true;
@@ -67,7 +58,7 @@ namespace ZooCtrlApi.Services
         public async Task<bool> Delete(int id)
         {
             var listAnimal = await _animalRepository.GetById(id);
-            if (await UsedId(id) && !(listAnimal != null))
+            if (await _filoRepository.IdExistsAsync(id) && !(listAnimal != null))
             {
                 await _filoRepository.Delete(id);
                 return true;

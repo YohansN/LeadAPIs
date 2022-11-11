@@ -49,7 +49,7 @@ namespace ZooCtrlApi.Controllers
         {
             var filoAdd = await _filoService.Add(filo);
             if(filoAdd)
-                return Ok();
+                return Created("Filo cadastrado!", filo);
             return BadRequest();
         }
 

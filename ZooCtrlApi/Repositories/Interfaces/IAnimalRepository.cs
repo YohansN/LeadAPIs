@@ -8,6 +8,7 @@ namespace ZooCtrlApi.Repositories.Interfaces
     {
         public Task<List<Animal>> GetAll();
         public Task<Animal> GetById(int id);
+        public Task<bool> IdExistsAsync(int id);
         public Task Add(Animal animal);
         public Task Delete(int id);
         public Task Update(Animal animal);
